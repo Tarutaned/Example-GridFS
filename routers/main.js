@@ -57,9 +57,14 @@ router.get('/', function (req, res) {
 // @desc Uploads file to DB
 router.post('/upload', upload.single('file'), (req, res) => {
   console.log('[+] Post upload')
-  console.log('[+] Uploaded: ' + req.file.originalname)
-  console.log('[+] Type: ' + req.file.mimetype)
-  res.redirect('/')
+  if (!(req.file === undefined)) {
+    console.log('[+] Uploaded: ' + req.file.originalname)
+    console.log('[+] Type: ' + req.file.mimetype)
+    return res.render('upload.ejs', {success: "File uploaded successfully"})
+  } else {
+    console.log('[+] No file was selected.')
+    return res.render('upload', {error: "Please select a file"})
+  }
 })
 
 
